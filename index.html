@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCL2 下载站 · 开源 Minecraft 启动器</title>
+<style>
+  :root{
+    --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#eef4ff;--blue-xl:#f5f9ff;
+    --ink:#1e293b;--muted:#5b6b82;--line:#d6e2f5;--white:#ffffff;
+    --blue-soft:#dbeafe;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+    background:var(--blue-xl);color:var(--ink);line-height:1.65;min-height:100vh;
+  }
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  /* Header */
+  header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:20px 0;border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,.85);backdrop-filter:blur(6px);
+  }
+  .logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:20px;color:var(--ink)}
+  .logo .badge{
+    width:42px;height:42px;border-radius:12px;
+    background:linear-gradient(135deg,var(--blue),#60a5fa);
+    display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;
+    box-shadow:0 6px 16px rgba(37,99,235,.3);
+  }
+  nav{display:flex;gap:22px;font-size:14px}
+  nav a{color:var(--muted)}nav a:hover{color:var(--blue)}
+  /* Hero */
+  .hero{text-align:center;padding:60px 0 36px}
+  .hero h1{font-size:48px;letter-spacing:2px;margin-bottom:12px;color:var(--ink)}
+  .hero h1 .accent{color:var(--blue)}
+  .hero p{color:var(--muted);font-size:18px;max-width:640px;margin:0 auto 6px}
+  .tags{margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .tag{
+    border:1px solid var(--line);border-radius:999px;padding:5px 14px;
+    font-size:13px;color:var(--muted);background:var(--white);
+  }
+  /* Download */
+  .download{
+    background:var(--white);border:1px solid var(--line);border-radius:18px;
+    padding:30px;margin:8px 0 28px;text-align:center;
+    box-shadow:0 10px 34px rgba(37,99,235,.10);
+  }
+  .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;font-weight:600;
+    padding:14px 26px;border-radius:12px;font-size:15px;transition:.18s;
+    border:1px solid transparent;cursor:pointer;
+  }
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:var(--blue-d);transform:translateY(-2px);box-shadow:0 10px 22px rgba(37,99,235,.32)}
+  .btn-ghost{background:var(--white);border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+  .hint{color:var(--muted);font-size:13px;margin-top:12px}
+  .pwd{
+    display:inline-flex;align-items:center;gap:10px;margin-top:16px;
+    background:var(--blue-soft);border:1px dashed var(--blue);border-radius:12px;
+    padding:10px 18px;font-size:14px;color:var(--blue-d);font-weight:600;
+  }
+  .pwd .code{font-family:"Cascadia Code",Consolas,monospace;background:var(--white);border:1px solid var(--line);border-radius:8px;padding:3px 12px;letter-spacing:2px}
+  /* Author / Open source card */
+  .credit{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0}
+  .credit .box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .credit .box h3{font-size:13px;color:var(--muted);font-weight:500;margin-bottom:8px;letter-spacing:.5px}
+  .credit .box .v{font-size:18px;font-weight:700;word-break:break-all}
+  .credit .box.mono .v{font-family:"Cascadia Code",Consolas,monospace;font-size:15px;color:var(--blue)}
+  .credit .box.mono .v a{color:var(--blue)}
+  /* Features */
+  .section-title{font-size:24px;margin:40px 0 18px;display:flex;align-items:center;gap:10px;color:var(--ink)}
+  .section-title::before{content:"";width:5px;height:24px;border-radius:3px;background:var(--blue)}
+  .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .feat{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;gap:14px;align-items:flex-start}
+  .feat .ico{flex:0 0 auto;width:34px;height:34px;border-radius:9px;background:var(--blue-soft);display:grid;place-items:center}
+  .feat h4{font-size:16px;margin-bottom:4px;color:var(--ink)}
+  .feat p{color:var(--muted);font-size:14px}
+  /* Gallery */
+  .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:28px 0}
+  .shot{background:var(--white);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.2s}
+  .shot:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(37,99,235,.15)}
+  .shot img{width:100%;display:block}
+  .shot figcaption{padding:14px 16px}
+  .shot figcaption b{display:block;color:var(--ink);font-size:15px;margin-bottom:3px}
+  .shot figcaption span{color:var(--muted);font-size:13px}
+  @media(max-width:720px){
+    .gallery{grid-template-columns:1fr}
+  }
+  /* FAQ */
+  .faq .q{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:12px}
+  .faq .q b{color:var(--ink)}
+  .faq .q p{color:var(--muted);font-size:14px;margin-top:6px}
+  /* Footer */
+  footer{border-top:1px solid var(--line);margin-top:46px;padding:26px 0 48px;color:var(--muted);font-size:13px;text-align:center;background:var(--white)}
+  footer a{color:var(--blue)}
+  .disclaim{background:var(--blue-soft);border:1px solid var(--blue);border-radius:12px;padding:14px 18px;font-size:13px;color:var(--blue-d);margin-top:16px}
+  @media(max-width:720px){
+    .credit,.feat-grid{grid-template-columns:1fr}
+    .hero h1{font-size:34px}
+    nav{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">
+      <div class="badge">PCL</div>
+      <span>PCL2 下载站</span>
+    </div>
+    <nav>
+      <a href="#download">下载</a>
+      <a href="#shots">界面预览</a>
+      <a href="#open">开源信息</a>
+      <a href="#feat">特性</a>
+      <a href="#faq">常见问题</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>PCL <span class="accent">2</span></h1>
+    <p>强大、美观、易用的开源 Minecraft 启动器</p>
+    <p style="font-size:15px">Plain Craft Launcher 2 · 由 <b style="color:var(--ink)">龙腾猫跃（LTCat）</b> 开发并开源</p>
+    <div class="tags">
+      <span class="tag">20K+ Stars</span>
+      <span class="tag">500 万+ 下载</span>
+      <span class="tag">永久免费</span>
+      <span class="tag">开源 LGPL-3.0</span>
+      <span class="tag">仅支持 Windows</span>
+    </div>
+  </section>
+
+  <section class="download" id="download">
+    <h2 style="margin-bottom:6px;color:var(--ink)">立即下载</h2>
+    <p style="color:var(--muted);font-size:14px">绿色免安装，解压即用 · 需 Windows 7 SP1+ 与 .NET Framework 4.5+</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://wwath.lanzout.com/ijToY49obr3e" target="_blank" rel="noopener">蓝奏云下载（推荐）</a>
+      <a class="btn btn-ghost" href="https://github.com/Hex-Dragon/PCL2/releases" target="_blank" rel="noopener">GitHub 官方发布</a>
+    </div>
+    <div class="pwd">
+      <span>提取密码</span>
+      <span class="code">6666</span>
+    </div>
+    <div class="btn-row" style="margin-top:18px">
+      <a class="btn btn-ghost" href="https://pcl2.aoe.top" target="_blank" rel="noopener">访问官网 pcl2.aoe.top</a>
+      <a class="btn btn-ghost" href="https://afdian.com/a/LTCat" target="_blank" rel="noopener">爱发电赞助作者</a>
+      <a class="btn btn-ghost" href="https://github.com/Hex-Dragon/PCL2" target="_blank" rel="noopener">查看源代码</a>
+    </div>
+    <p class="hint">本页为信息导航站；蓝奏云链接由提供者分享，下载请认准作者官方渠道。</p>
+  </section>
+
+  <section id="shots">
+    <div class="section-title">界面预览</div>
+    <div class="gallery">
+      <figure class="shot">
+        <img src="screenshots/pcl-01-home.png" alt="PCL2 主界面" loading="lazy">
+        <figcaption>
+          <b>主界面 · 一键启动</b>
+          <span>支持正版 / 离线双模式登录，选择玩家与游戏版本（图中为 1.20.1-forge-47.4.0），点击即可启动游戏，版本选择与版本设置触手可及。</span>
+        </figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/pcl-02-mod-search.png" alt="PCL2 模组搜索" loading="lazy">
+        <figcaption>
+          <b>模组搜索 · 社区资源</b>
+          <span>内置 Mod、整合包、数据包、资源包、光影包五大入口，聚合 Modrinth 等来源，按名称、版本、类型筛选，热门模组（如钠、Iris）一键安装。</span>
+        </figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/pcl-03-settings.png" alt="PCL2 启动设置" loading="lazy">
+        <figcaption>
+          <b>启动设置 · 精细调优</b>
+          <span>版本隔离、游戏窗口标题、启动器可见性、进程优先级、窗口大小与内存分配等选项一应俱全，兼顾新手默认配置与进阶玩家自定义需求。</span>
+        </figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/pcl-04-help.png" alt="PCL2 帮助中心" loading="lazy">
+        <figcaption>
+          <b>帮助中心 · 新手友好</b>
+          <span>内置社区编写的 Minecraft 教程、整合包制作指南与资源安装指南，配合百宝箱、反馈与新功能投票，遇到问题随手可查。</span>
+        </figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshots/pcl-05-versions.png" alt="PCL2 原版游戏下载" loading="lazy">
+        <figcaption>
+          <b>原版下载 · 全版本覆盖</b>
+          <span>最新正式版与预览版实时同步，历史正式版列表完整保留，选择版本即可一键下载安装，无需手动配置游戏文件。</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="open">
+    <div class="section-title">开源信息 &amp; 作者</div>
+    <div class="credit">
+      <div class="box">
+        <h3>作者 / 开发者</h3>
+        <div class="v">龙腾猫跃（LTCat）</div>
+      </div>
+      <div class="box mono">
+        <h3>GitHub 开源地址</h3>
+        <div class="v"><a href="https://github.com/Hex-Dragon/PCL2" target="_blank" rel="noopener">Hex-Dragon/PCL2</a></div>
+      </div>
+      <div class="box">
+        <h3>开源协议</h3>
+        <div class="v">LGPL-3.0</div>
+      </div>
+    </div>
+    <div class="disclaim">
+      版权声明：PCL2 的全部著作权归作者 <b>龙腾猫跃（LTCat）</b> 所有。本下载站仅作信息聚合与下载引导，不提供任何二次分发或修改版本。如需使用、修改源码，请遵循其 LGPL-3.0 开源协议并保留原作者署名。
+    </div>
+  </section>
+
+  <section id="feat">
+    <div class="section-title">核心特性</div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+        <div><h4>精美界面</h4><p>现代化设计语言，支持自定义主题，启动器也能成为一道风景线。</p></div>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div><h4>快速启动</h4><p>优化的启动流程，自动准备 Java 环境，老旧电脑也能流畅运行。</p></div>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+        <div><h4>模组管理</h4><p>内置 CurseForge / Modrinth 搜索、安装、启用与禁用，无需手动搬运文件。</p></div>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><line x1="3.27" y1="6.96" x2="12" y2="12.01"/><line x1="12" y1="12.01" x2="20.73" y2="6.96"/></svg></div>
+        <div><h4>自动下载</h4><p>自动下载游戏、Java、Forge / Fabric 等，针对国内网络做多线程优化。</p></div>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+        <div><h4>版本管理</h4><p>正式版、快照版、旧版、Forge、Fabric 一应俱全，一键切换。</p></div>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div><h4>崩溃分析</h4><p>游戏异常退出时智能指出可疑模组并给出处理建议。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <div class="section-title">常见问题</div>
+    <div class="q"><b>PCL2 是免费的吗？</b><p>是的，PCL2 完全免费且开源（LGPL-3.0）。你可以免费下载、使用和分享。喜欢的话可以通过爱发电支持作者龙腾猫跃。</p></div>
+    <div class="q"><b>需要什么系统要求？</b><p>Windows 7 SP1 / 8 / 10 / 11，以及 .NET Framework 4.5 或更高版本（Win10/11 已内置）。</p></div>
+    <div class="q"><b>支持哪些 Minecraft 版本？</b><p>支持所有官方 Minecraft Java 版（含快照），并完整兼容 Forge、Fabric、OptiFine 等加载器。</p></div>
+    <div class="q"><b>这是官方站点吗？</b><p>不是。本页为第三方下载导航站，仅聚合作者官方链接，软件著作权与所有权利归龙腾猫跃所有。</p></div>
+  </section>
+
+  <footer>
+    PCL2 下载导航站 · 软件著作权归 <a href="https://github.com/Hex-Dragon/PCL2" target="_blank" rel="noopener">龙腾猫跃（LTCat）</a> 所有<br>
+    开源地址：<a href="https://github.com/Hex-Dragon/PCL2" target="_blank" rel="noopener">github.com/Hex-Dragon/PCL2</a> · 协议 LGPL-3.0
+  </footer>
+
+</div>
+</body>
+</html>
